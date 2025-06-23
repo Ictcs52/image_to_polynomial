@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 Image to Polynomial Web App</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-chart-line me-2"></i>
+                Image to Polynomial
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#upload-section">อัปโหลด</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#results-section">ผลลัพธ์</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about-section">เกี่ยวกับ</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section bg-gradient-primary text-white py-5">
+        <div class="container">
+            <div class="row align-items-center">                <div class="col-lg-6">
+                    <h1 class="display-4 fw-bold mb-4 hero-title">
+                        🎯 แปลงภาพเป็นสมการพหุนาม
+                    </h1>
+                    <p class="lead mb-4 hero-subtitle">
+                        ใช้เทคนิค <span class="text-warning fw-bold">Computer Vision</span> และ 
+                        <span class="text-info fw-bold">Machine Learning</span> 
+                        เพื่อแปลงภาพขาวดำหรือลายเส้นเป็นสมการพหุนาม
+                    </p>
+                    <div class="d-flex gap-3 hero-buttons">
+                        <button class="btn btn-light btn-lg shadow-lg" onclick="scrollToSection('upload-section')">
+                            <i class="fas fa-rocket me-2"></i>🚀 เริ่มต้นใช้งาน
+                        </button>
+                        <button class="btn btn-outline-light btn-lg shadow-lg" onclick="scrollToSection('about-section')">
+                            <i class="fas fa-info-circle me-2"></i>📚 เรียนรู้เพิ่มเติม
+                        </button>
+                    </div>
+                </div>                <div class="col-lg-6">
+                    <div class="text-center">
+                        <i class="fas fa-chart-line display-1 text-white-50 floating-icon"></i>
+                        <div class="hero-decoration">
+                            <div class="floating-element">📊</div>
+                            <div class="floating-element">📈</div>
+                            <div class="floating-element">🔍</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>    <!-- Upload Section -->
+    <section id="upload-section" class="py-5 bg-upload">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="card shadow-lg border-0">
+                        <div class="card-header bg-primary text-white">
+                            <h3 class="card-title mb-0">
+                                <i class="fas fa-upload me-2"></i>อัปโหลดภาพ
+                            </h3>
+                        </div>
+                        <div class="card-body p-4">
+                            <!-- File Upload Area -->
+                            <div class="upload-area border-2 border-dashed border-primary rounded p-5 text-center mb-4" 
+                                 id="uploadArea" 
+                                 ondrop="handleDrop(event)" 
+                                 ondragover="handleDragOver(event)"
+                                 ondragenter="handleDragEnter(event)"
+                                 ondragleave="handleDragLeave(event)">
+                                <i class="fas fa-cloud-upload-alt display-3 text-primary mb-3"></i>
+                                <h4 class="text-primary">ลากและวางไฟล์ที่นี่</h4>
+                                <p class="text-muted mb-3">หรือคลิกเพื่อเลือกไฟล์</p>                                
+                                <input type="file" id="fileInput" class="d-none" accept=".jpg,.jpeg,.png" onchange="handleFileSelect(event)">                                <button class="btn btn-primary btn-lg px-5 py-3 shadow-lg" id="selectFileBtn">
+                                    <i class="fas fa-cloud-upload-alt me-2"></i>📁 เลือกไฟล์ภาพ
+                                </button><div class="mt-3">
+                                    <small class="text-muted">
+                                        <i class="fas fa-info-circle text-info me-1"></i>
+                                        รองรับไฟล์: <strong class="text-primary">JPG, JPEG, PNG</strong> เท่านั้น 
+                                        <span class="text-muted">(ขนาดไม่เกิน 16MB)</span>
+                                    </small>
+                                    <br>
+                                    <small class="text-muted">
+                                        <i class="fas fa-lightbulb text-warning me-1"></i>
+                                        <strong>เคล็ดลับ:</strong> ภาพที่มีเส้นโค้งชัดเจนจะให้ผลลัพธ์ที่ดีที่สุด
+                                    </small>
+                                </div>
+                            </div>
+
+                            <!-- Preview Area -->
+                            <div id="previewArea" class="d-none">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h6 class="card-title mb-0">ภาพต้นฉบับ</h6>
+                                            </div>
+                                            <div class="card-body text-center">
+                                                <img id="previewImage" class="img-fluid rounded" alt="Preview">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h6 class="card-title mb-0">การตั้งค่า</h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="mb-3">
+                                                    <label class="form-label">ดีกรีพหุนาม</label>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="2" id="degree2" checked>
+                                                        <label class="form-check-label" for="degree2">
+                                                            ดีกรี 2 (Quadratic)
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="3" id="degree3" checked>
+                                                        <label class="form-check-label" for="degree3">
+                                                            ดีกรี 3 (Cubic)
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="4" id="degree4" checked>
+                                                        <label class="form-check-label" for="degree4">
+                                                            ดีกรี 4 (Quartic)
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="5" id="degree5">
+                                                        <label class="form-check-label" for="degree5">
+                                                            ดีกรี 5 (Quintic)
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="mb-3">
+                                                    <label for="edgeThreshold" class="form-label">ความไว Edge Detection</label>
+                                                    <input type="range" class="form-range" id="edgeThreshold" min="50" max="200" value="100">
+                                                    <div class="d-flex justify-content-between">
+                                                        <small>น้อย</small>
+                                                        <small>มาก</small>
+                                                    </div>
+                                                </div>                                <button class="btn btn-success btn-lg w-100 shadow-lg" onclick="processImage()">
+                                                    <i class="fas fa-magic me-2"></i>🔍 เริ่มวิเคราะห์ภาพ
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Progress Bar -->
+                            <div id="progressArea" class="d-none mt-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h6 class="card-title">
+                                            <i class="fas fa-spinner fa-spin me-2"></i>กำลังประมวลผล...
+                                        </h6>
+                                        <div class="progress">                                            <div id="progressBar" class="progress-bar progress-bar-striped progress-bar-animated" 
+                                                 role="progressbar" 
+                                                 aria-label="การประมวลผลภาพ"
+                                                 aria-valuenow="0"
+                                                 aria-valuemin="0"
+                                                 aria-valuemax="100"></div>
+                                        </div>
+                                        <small id="progressText" class="text-muted">เริ่มต้นการประมวลผล...</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>    <!-- Results Section -->
+    <section id="results-section" class="py-5 bg-results">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="text-center mb-5">
+                        <i class="fas fa-chart-bar me-2"></i>ผลลัพธ์การวิเคราะห์
+                    </h2>
+                </div>
+            </div>
+
+            <div id="resultsContainer" class="d-none">
+                <!-- Statistics Cards -->
+                <div class="row mb-4">                    <div class="col-md-3">
+                        <div class="card text-center h-100 border-0 shadow-lg">
+                            <div class="card-body">
+                                <i class="fas fa-trophy text-warning fa-2x mb-2"></i>
+                                <h5 class="card-title">🏆 ดีกรีที่ดีที่สุด</h5>
+                                <h3 id="bestDegree" class="text-primary fw-bold">-</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card text-center h-100 border-0 shadow-lg">
+                            <div class="card-body">
+                                <i class="fas fa-bullseye text-success fa-2x mb-2"></i>
+                                <h5 class="card-title">🎯 R² Score</h5>
+                                <h3 id="bestR2" class="text-success fw-bold">-</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card text-center h-100 border-0 shadow-lg">
+                            <div class="card-body">
+                                <i class="fas fa-exclamation-triangle text-warning fa-2x mb-2"></i>
+                                <h5 class="card-title">⚠️ RMSE</h5>
+                                <h3 id="bestRMSE" class="text-warning fw-bold">-</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card text-center h-100 border-0 shadow-lg">
+                            <div class="card-body">
+                                <i class="fas fa-dot-circle text-info fa-2x mb-2"></i>
+                                <h5 class="card-title">📊 จำนวนจุดข้อมูล</h5>
+                                <h3 id="dataPoints" class="text-info fw-bold">-</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts -->
+                <div class="row mb-4">
+                    <div class="col-lg-6">
+                        <div class="card h-100">
+                            <div class="card-header">
+                                <h5 class="card-title mb-0">
+                                    <i class="fas fa-image me-2"></i>การตรวจหาขอบ
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="edgeCanvas" class="img-fluid"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card h-100">
+                            <div class="card-header">
+                                <h5 class="card-title mb-0">
+                                    <i class="fas fa-chart-line me-2"></i>เปรียบเทียบพหุนาม
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="polynomialChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Polynomial Equations -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title mb-0">
+                                    <i class="fas fa-calculator me-2"></i>สมการพหุนาม
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="equationsContainer" class="row">
+                                    <!-- Equations will be populated here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Download Section -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title mb-0">
+                                    <i class="fas fa-download me-2"></i>ดาวน์โหลดผลลัพธ์
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <button class="btn btn-primary w-100" onclick="downloadResults('json')">
+                                            <i class="fas fa-file-code me-2"></i>ดาวน์โหลด JSON
+                                        </button>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <button class="btn btn-success w-100" onclick="downloadResults('csv')">
+                                            <i class="fas fa-file-csv me-2"></i>ดาวน์โหลด CSV
+                                        </button>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <button class="btn btn-info w-100" onclick="downloadResults('txt')">
+                                            <i class="fas fa-file-alt me-2"></i>ดาวน์โหลด TXT
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- No Results Message -->
+            <div id="noResultsMessage" class="text-center">
+                <i class="fas fa-chart-line fa-4x text-muted mb-3"></i>
+                <h4 class="text-muted">ยังไม่มีผลลัพธ์</h4>
+                <p class="text-muted">อัปโหลดภาพและเริ่มวิเคราะห์เพื่อดูผลลัพธ์</p>
+            </div>
+        </div>
+    </section>    <!-- About Section -->
+    <section id="about-section" class="py-5 bg-about">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="text-center mb-5">
+                        <i class="fas fa-info-circle me-2"></i>เกี่ยวกับระบบ
+                    </h2>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="card text-center h-100">
+                        <div class="card-body">
+                            <i class="fas fa-eye text-primary fa-3x mb-3"></i>
+                            <h5 class="card-title">Computer Vision</h5>
+                            <p class="card-text">
+                                ใช้เทคนิค Edge Detection และ Image Processing 
+                                เพื่อสกัดจุดข้อมูลจากภาพ
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card text-center h-100">
+                        <div class="card-body">
+                            <i class="fas fa-brain text-success fa-3x mb-3"></i>
+                            <h5 class="card-title">Machine Learning</h5>
+                            <p class="card-text">
+                                ใช้ Polynomial Regression และ Statistical Analysis 
+                                เพื่อหาสมการที่เหมาะสมที่สุด
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card text-center h-100">
+                        <div class="card-body">
+                            <i class="fas fa-chart-line text-warning fa-3x mb-3"></i>
+                            <h5 class="card-title">Polynomial Analysis</h5>
+                            <p class="card-text">
+                                วิเคราะห์พหุนามหลายดีกรี (2-5) และเปรียบเทียบ
+                                ความแม่นยำด้วย R² Score และ RMSE
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-5">
+                <div class="col-lg-6">                    <h4><i class="fas fa-check-circle text-success me-2"></i>✅ ประเภทภาพที่เหมาะสม</h4>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-check text-success me-2"></i>📊 ภาพกราฟฟังก์ชันคณิตศาสตร์</li>
+                        <li><i class="fas fa-check text-success me-2"></i>〰️ ลายเส้นโค้งต่างๆ ที่ชัดเจน</li>
+                        <li><i class="fas fa-check text-success me-2"></i>⚫ ภาพขาวดำหรือ Grayscale</li>
+                        <li><i class="fas fa-check text-success me-2"></i>✏️ ภาพวาดเส้นทางหรือเส้นโค้ง</li>
+                        <li><i class="fas fa-check text-success me-2"></i>📈 กราฟจากหนังสือหรือเอกสาร</li>
+                    </ul>
+                </div>
+                <div class="col-lg-6">                    <h4><i class="fas fa-times-circle text-danger me-2"></i>❌ ประเภทภาพที่ไม่เหมาะสม</h4>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-times text-danger me-2"></i>🎨 ภาพสีที่ซับซ้อน (ควรแปลงเป็นขาวดำก่อน)</li>
+                        <li><i class="fas fa-times text-danger me-2"></i>📷 ภาพถ่ายที่มี noise หรือเบลอ</li>
+                        <li><i class="fas fa-times text-danger me-2"></i>🕸️ ภาพที่มีเส้นหลายเส้นซับซ้อนซ้อนทับกัน</li>
+                        <li><i class="fas fa-times text-danger me-2"></i>🏞️ ภาพธรรมชาติที่ไม่มีเส้นหรือขอบชัดเจน</li>
+                        <li><i class="fas fa-times text-danger me-2"></i>📝 ภาพข้อความหรือตัวอักษร</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5><i class="fas fa-chart-line me-2"></i>Image to Polynomial Web App</h5>
+                    <p class="text-muted">
+                        แอปพลิเคชันเว็บสำหรับแปลงภาพเป็นสมการพหุนาม
+                        โดยใช้เทคนิค Computer Vision และ Machine Learning
+                    </p>
+                </div>
+                <div class="col-md-6">                    <h6>🛠️ เทคโนโลยีที่ใช้</h6>
+                    <div class="d-flex flex-wrap gap-2">
+                        <span class="badge bg-primary">💻 JavaScript ES6+</span>
+                        <span class="badge bg-success">🎨 Bootstrap 5</span>
+                        <span class="badge bg-warning">🖼️ HTML5 Canvas</span>
+                        <span class="badge bg-info">📊 Chart.js</span>
+                        <span class="badge bg-danger">👁️ Computer Vision</span>
+                        <span class="badge bg-secondary">🤖 Machine Learning</span>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-3">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p class="mb-0">&copy; 2025 Image to Polynomial Web App. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>

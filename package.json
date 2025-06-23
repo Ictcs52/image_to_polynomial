@@ -1,0 +1,36 @@
+{
+  "name": "image-to-polynomial-webapp-js",
+  "version": "1.0.0",
+  "description": "แอปพลิเคชันเว็บสำหรับแปลงภาพขาวดำหรือลายเส้นเป็นสมการพหุนาม โดยใช้ JavaScript และ Bootstrap",
+  "main": "index.html",
+  "scripts": {
+    "start": "live-server --port=3000 --open=/index.html",
+    "dev": "live-server --port=3000 --open=/index.html --watch=.",
+    "build": "echo 'Static site - no build required'",
+    "test": "echo 'No tests specified'"
+  },
+  "keywords": [
+    "computer-vision",
+    "polynomial-regression",
+    "image-processing",
+    "javascript",
+    "bootstrap",
+    "web-app",
+    "machine-learning",
+    "edge-detection"
+  ],
+  "author": "Image to Polynomial Team",
+  "license": "MIT",
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  },
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/ImagetoPolynomialWebApp_JS.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/ImagetoPolynomialWebApp_JS/issues"
+  },
+  "homepage": "https://github.com/yourusername/ImagetoPolynomialWebApp_JS#readme"
+}
