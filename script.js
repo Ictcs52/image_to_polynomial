@@ -1,190 +1,278 @@
 /**
- * Image to Polynomial Web App - Main JavaScript
- * ระบบแปลงภาพเป็นสมการพหุนาม
+ * 🎯 Image to Polynomial Web App - Main JavaScript
+ * ================================================
+ * ไฟล์ JavaScript หลักสำหรับแอปพลิเคชันแปลงภาพเป็นสมการพหุนาม
+ * 
+ * 📚 สิ่งที่นักเรียนจะได้เรียนรู้:
+ * - JavaScript ES6+ Syntax และ Modern Features
+ * - HTML5 Canvas API สำหรับ Image Processing
+ * - File API และ FileReader สำหรับการอ่านไฟล์
+ * - Drag & Drop API สำหรับ User Interface
+ * - Mathematical Operations และ Statistical Analysis
+ * - DOM Manipulation และ Event Handling
+ * - Asynchronous Programming (async/await, Promises)
+ * - Chart.js Library สำหรับการสร้างกราฟ
+ * - Computer Vision Concepts (Edge Detection)
+ * - Machine Learning Concepts (Polynomial Regression)
+ * 
+ * 🔧 เทคโนโลยีที่ใช้:
+ * - Vanilla JavaScript (ไม่ใช้ Framework)
+ * - HTML5 Canvas API
+ * - Chart.js for Data Visualization
+ * - Bootstrap 5 for UI Components
+ * - Mathematical Libraries (Matrix Operations)
  */
 
-// Global Variables
-let currentImageData = null;
-let processedResults = null;
-let edgePoints = [];
+// 🌐 Global Variables - ตัวแปรสำคัญของแอปพลิเคชัน
+// ===================================================
+let currentImageData = null;    // ข้อมูลภาพที่ผู้ใช้อัปโหลด
+let processedResults = null;    // ผลลัพธ์การประมวลผล
+let edgePoints = [];           // จุดข้อมูลที่สกัดได้จากภาพ
 
-// Initialize the application
+// 🚀 Application Initialization - การเริ่มต้นแอปพลิเคชัน
+// ===========================================================
+// Event Listener นี้จะทำงานเมื่อ HTML โหลดเสร็จแล้ว (DOM Ready)
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Image to Polynomial Web App initialized');
-    setupEventListeners();
+    console.log('🎯 Image to Polynomial Web App initialized');
+    setupEventListeners(); // เรียกฟังก์ชันตั้งค่า Event Listeners
 });
 
 /**
- * Setup all event listeners
+ * 🎛️ Setup All Event Listeners - ตั้งค่า Event Listeners ทั้งหมด
+ * ==============================================================
+ * ฟังก์ชันนี้ใช้สำหรับตั้งค่า Event Listeners ต่างๆ ที่จำเป็น
+ * เพื่อให้แอปพลิเคชันสามารถตอบสนองต่อการกระทำของผู้ใช้
  */
 function setupEventListeners() {
-    // File input change
+    // 📁 File Input Change Event - เมื่อผู้ใช้เลือกไฟล์
     const fileInput = document.getElementById('fileInput');
     fileInput.addEventListener('change', handleFileSelect);
     
-    // Select file button click
+    // 🖱️ Select File Button Click - เมื่อคลิกปุ่มเลือกไฟล์
     const selectFileBtn = document.getElementById('selectFileBtn');
     selectFileBtn.addEventListener('click', function(e) {
-        e.stopPropagation(); // Prevent event bubbling
-        fileInput.click();
+        e.stopPropagation(); // ป้องกันไม่ให้ Event ไปยัง Element อื่น
+        fileInput.click();   // เปิด File Dialog
     });
     
-    // Upload area click (but not on the button)
+    // 📤 Upload Area Click - เมื่อคลิกที่พื้นที่อัปโหลด
     const uploadArea = document.getElementById('uploadArea');
     uploadArea.addEventListener('click', function(e) {
-        // Only trigger if not clicking on the button or its children
+        // ตรวจสอบว่าไม่ได้คลิกที่ปุ่มหรือ Element ลูกของปุ่ม
         if (e.target !== selectFileBtn && !selectFileBtn.contains(e.target)) {
-            fileInput.click();
+            fileInput.click(); // เปิด File Dialog
         }
     });
     
-    // Smooth scrolling for navigation links
+    // 🔗 Smooth Scrolling for Navigation Links - การเลื่อนหน้าเว็บแบบนุ่มนวล
     document.querySelectorAll('.nav-link').forEach(link => {
         link.addEventListener('click', function(e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href').substring(1);
-            scrollToSection(targetId);
+            e.preventDefault(); // ป้องกัน Default Behavior ของ Link
+            const targetId = this.getAttribute('href').substring(1); // ตัด # ออก
+            scrollToSection(targetId); // เรียกฟังก์ชันเลื่อนไปยังส่วนที่ต้องการ
         });
     });
 }
 
 /**
- * Handle file selection
+ * 📁 Handle File Selection - จัดการการเลือกไฟล์
+ * =============================================
+ * ฟังก์ชันนี้ทำงานเมื่อผู้ใช้เลือกไฟล์ผ่าน File Input
+ * 
+ * 🔍 การตรวจสอบที่ทำ:
+ * 1. ประเภทไฟล์ (JPG, PNG เท่านั้น)
+ * 2. ขนาดไฟล์ (ไม่เกิน 16MB)
+ * 
+ * @param {Event} event - Event Object จาก File Input
  */
 function handleFileSelect(event) {
-    const file = event.target.files[0];
+    const file = event.target.files[0]; // ไฟล์แรกที่เลือก
     if (file) {
-        // Validate file type - only JPG and PNG
+        // 🔍 Validate File Type - ตรวจสอบประเภทไฟล์
         const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
         if (!allowedTypes.includes(file.type.toLowerCase())) {
             showAlert('ไฟล์ประเภทนี้ไม่รองรับ กรุณาเลือกไฟล์ JPG หรือ PNG เท่านั้น', 'danger');
             return;
         }
         
-        // Validate file size (16MB max)
+        // 📏 Validate File Size - ตรวจสอบขนาดไฟล์ (16MB = 16 * 1024 * 1024 bytes)
         if (file.size > 16 * 1024 * 1024) {
             showAlert('ขนาดไฟล์ใหญ่เกินไป กรุณาเลือกไฟล์ที่มีขนาดไม่เกิน 16MB', 'danger');
             return;
         }
         
+        // ✅ ไฟล์ผ่านการตรวจสอบแล้ว - โหลดตัวอย่าง
         loadImagePreview(file);
     }
 }
 
 /**
- * Handle drag and drop functionality
+ * 🖱️ Handle Drag and Drop Functionality - จัดการการลากและวางไฟล์
+ * ===============================================================
+ * ฟังก์ชันเหล่านี้ทำให้ผู้ใช้สามารถลากไฟล์มาวางในพื้นที่อัปโหลดได้
+ * 
+ * 🎯 HTML5 Drag & Drop API Events:
+ * - dragenter: เมื่อลากไฟล์เข้ามาในพื้นที่
+ * - dragover: เมื่อลากไฟล์อยู่เหนือพื้นที่
+ * - dragleave: เมื่อลากไฟล์ออกจากพื้นที่
+ * - drop: เมื่อปล่อยไฟล์ในพื้นที่
+ */
+
+/**
+ * 📥 Handle Drop Event - จัดการเมื่อปล่อยไฟล์
  */
 function handleDrop(event) {
-    event.preventDefault();
-    event.stopPropagation();
+    event.preventDefault();     // ป้องกัน Default Browser Behavior
+    event.stopPropagation();    // หยุด Event Bubbling
     
     const uploadArea = document.getElementById('uploadArea');
-    uploadArea.classList.remove('drag-over');
-      const files = event.dataTransfer.files;
+    uploadArea.classList.remove('drag-over'); // เอา CSS Class ที่ใช้แสดง Hover Effect
+    
+    const files = event.dataTransfer.files; // ไฟล์ที่ถูกลาก
     if (files.length > 0) {
-        const file = files[0];
-        // Check file type - only JPG and PNG
+        const file = files[0]; // เอาไฟล์แรก
+        
+        // 🔍 Check File Type - ตรวจสอบประเภทไฟล์
         const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
         if (allowedTypes.includes(file.type.toLowerCase())) {
-            loadImagePreview(file);
+            loadImagePreview(file); // โหลดตัวอย่างภาพ
         } else {
             showAlert('ไฟล์ประเภทนี้ไม่รองรับ กรุณาเลือกไฟล์ JPG หรือ PNG เท่านั้น', 'danger');
         }
     }
 }
 
+/**
+ * 🔄 Handle Drag Over Event - จัดการเมื่อลากไฟล์อยู่เหนือพื้นที่
+ */
 function handleDragOver(event) {
-    event.preventDefault();
+    event.preventDefault();     // ป้องกัน Default Behavior (สำคัญสำหรับ Drop)
     event.stopPropagation();
 }
 
+/**
+ * 🎯 Handle Drag Enter Event - จัดการเมื่อลากไฟล์เข้าพื้นที่
+ */
 function handleDragEnter(event) {
     event.preventDefault();
     event.stopPropagation();
+    // เพิ่ม CSS Class เพื่อแสดง Visual Feedback
     document.getElementById('uploadArea').classList.add('drag-over');
 }
 
+/**
+ * 🚪 Handle Drag Leave Event - จัดการเมื่อลากไฟล์ออกจากพื้นที่
+ */
 function handleDragLeave(event) {
     event.preventDefault();
     event.stopPropagation();
+    // เอา CSS Class ออกเมื่อลากออกจากพื้นที่
     document.getElementById('uploadArea').classList.remove('drag-over');
 }
 
 /**
- * Load and display image preview
+ * 🖼️ Load and Display Image Preview - โหลดและแสดงตัวอย่างภาพ
+ * ==========================================================
+ * ฟังก์ชันนี้จะอ่านไฟล์ภาพและแสดงตัวอย่างให้ผู้ใช้เห็น
+ * พร้อมเก็บข้อมูลภาพไว้สำหรับการประมวลผลต่อ
+ * 
+ * 🔧 HTML5 FileReader API:
+ * - FileReader: ใช้อ่านไฟล์ในรูปแบบต่างๆ
+ * - readAsDataURL(): แปลงไฟล์เป็น Base64 Data URL
+ * 
+ * @param {File} file - ไฟล์ภาพที่จะโหลด
  */
 function loadImagePreview(file) {
-    const reader = new FileReader();
+    const reader = new FileReader(); // สร้าง FileReader Object
+    
+    // 📖 Event Handler เมื่ออ่านไฟล์เสร็จ
     reader.onload = function(e) {
         const previewImage = document.getElementById('previewImage');
-        previewImage.src = e.target.result;
+        previewImage.src = e.target.result; // ตั้งค่า src ของ img element
         
-        // Show preview area
+        // 👁️ Show Preview Area - แสดงส่วนตัวอย่างภาพ
         document.getElementById('previewArea').classList.remove('d-none');
         
-        // Store image data for processing
-        const img = new Image();
+        // 💾 Store Image Data - เก็บข้อมูลภาพสำหรับการประมวลผล
+        const img = new Image(); // สร้าง Image Object เพื่อดึงขนาดภาพ
         img.onload = function() {
+            // เก็บข้อมูลสำคัญของภาพ
             currentImageData = {
-                src: e.target.result,
-                width: img.width,
-                height: img.height,
-                file: file
+                src: e.target.result,  // Base64 Data URL
+                width: img.width,      // ความกว้างของภาพ
+                height: img.height,    // ความสูงของภาพ
+                file: file            // ไฟล์ต้นฉบับ
             };
             
+            // 🎉 แสดงข้อความสำเร็จ
             showAlert('อัปโหลดสำเร็จ! กรุณาเลือกการตั้งค่าและกดเริ่มวิเคราะห์', 'success');
         };
-        img.src = e.target.result;
+        img.src = e.target.result; // โหลดภาพเพื่อดึงขนาด
     };
+    
+    // 🚀 เริ่มอ่านไฟล์เป็น Data URL
     reader.readAsDataURL(file);
 }
 
 /**
- * Process the image and extract polynomial
+ * 🔬 Process the Image and Extract Polynomial - ประมวลผลภาพและสกัดสมการพหุนาม
+ * ===========================================================================
+ * ฟังก์ชันหลักที่ทำการประมวลผลภาพทั้งหมด
+ * 
+ * 📋 ขั้นตอนการประมวลผล:
+ * 1. ตรวจสอบข้อมูลภาพและการตั้งค่า
+ * 2. Edge Detection - ตรวจหาขอบของภาพ
+ * 3. Data Point Extraction - สกัดจุดข้อมูล
+ * 4. Polynomial Regression - วิเคราะห์พหุนาม
+ * 5. Display Results - แสดงผลลัพธ์
+ * 
+ * 🎯 Computer Vision + Machine Learning Pipeline
  */
 async function processImage() {
+    // 🔍 Validation - ตรวจสอบข้อมูลที่จำเป็น
     if (!currentImageData) {
         showAlert('กรุณาอัปโหลดภาพก่อน', 'warning');
         return;
     }
     
-    // Get selected degrees
+    // 📊 Get Selected Degrees - ดึงดีกรีพหุนามที่เลือก
     const selectedDegrees = getSelectedDegrees();
     if (selectedDegrees.length === 0) {
         showAlert('กรุณาเลือกดีกรีพหุนามอย่างน้อย 1 ดีกรี', 'warning');
         return;
     }
     
-    // Show progress
+    // 📊 Show Progress Bar - แสดงแถบความคืบหน้า
     showProgress();
     
     try {
-        // Step 1: Edge Detection
+        // 🔍 Step 1: Edge Detection - ตรวจหาขอบของภาพ
         updateProgress(20, 'กำลังตรวจหาขอบของภาพ...');
         const edgeData = await performEdgeDetection();
         
-        // Step 2: Extract points
+        // 📍 Step 2: Extract Data Points - สกัดจุดข้อมูล
         updateProgress(40, 'กำลังสกัดจุดข้อมูล...');
         const points = await extractDataPoints(edgeData);
         
+        // ⚠️ ตรวจสอบจำนวนจุดข้อมูล
         if (points.length < 10) {
             throw new Error('พบจุดข้อมูลน้อยเกินไป กรุณาลองปรับค่า Edge Detection หรือใช้ภาพที่มีเส้นชัดเจนกว่า');
         }
         
-        // Step 3: Polynomial regression
+        // 📈 Step 3: Polynomial Regression - วิเคราะห์พหุนาม
         updateProgress(60, 'กำลังวิเคราะห์พหุนาม...');
         const results = await performPolynomialRegression(points, selectedDegrees);
         
-        // Step 4: Display results
+        // 🎨 Step 4: Display Results - แสดงผลลัพธ์
         updateProgress(80, 'กำลังสร้างกราฟและผลลัพธ์...');
         await displayResults(results, points, edgeData);
         
         updateProgress(100, 'เสร็จสิ้น!');
         
-        // Hide progress and show results
+        // 🎉 Hide Progress and Show Results - ซ่อนความคืบหน้าและแสดงผลลัพธ์
         setTimeout(() => {
             hideProgress();
-            scrollToSection('results-section');
+            scrollToSection('results-section'); // เลื่อนไปยังส่วนผลลัพธ์
         }, 1000);
         
     } catch (error) {
@@ -195,17 +283,29 @@ async function processImage() {
 }
 
 /**
- * Perform edge detection on the image
+ * 👁️ Perform Edge Detection - ตรวจหาขอบของภาพ
+ * =============================================
+ * ใช้ Canny Edge Detection Algorithm เพื่อหาขอบของภาพ
+ * 
+ * 🔬 Computer Vision Concepts:
+ * - Grayscale Conversion: แปลงภาพเป็นสีเทา
+ * - Gaussian Blur: ลดสัญญาณรบกวน
+ * - Gradient Calculation: คำนวณการเปลี่ยนแปลงของสี
+ * - Non-maximum Suppression: ลดความหนาของขอบ
+ * - Hysteresis Thresholding: กำหนดเกณฑ์สำหรับขอบ
+ * 
+ * @returns {Promise<ImageData>} ข้อมูลภาพที่ตรวจหาขอบแล้ว
  */
 async function performEdgeDetection() {
     return new Promise((resolve) => {
+        // 🖼️ Create Canvas for Image Processing
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
         const img = new Image();
         
         img.onload = function() {
-            // Resize image if too large
-            const maxSize = 800;
+            // 📏 Resize Image if Too Large - ปรับขนาดภาพถ้าใหญ่เกินไป
+            const maxSize = 800; // ขนาดสูงสุด 800px
             let { width, height } = img;
             
             if (width > maxSize || height > maxSize) {
@@ -217,10 +317,10 @@ async function performEdgeDetection() {
             canvas.width = width;
             canvas.height = height;
             
-            // Draw image to canvas
+            // 🎨 Draw Image to Canvas - วาดภาพลงบน Canvas
             ctx.drawImage(img, 0, 0, width, height);
             
-            // Get image data
+            // 📊 Get Image Data - ดึงข้อมูลพิกเซลของภาพ
             const imageData = ctx.getImageData(0, 0, width, height);
             
             // Apply edge detection

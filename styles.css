@@ -1,86 +1,147 @@
-/* Custom Styles for Image to Polynomial Web App */
+/* 
+🎨 Custom Styles for Image to Polynomial Web App
+================================================
+ไฟล์ CSS หลักสำหรับแอปพลิเคชันแปลงภาพเป็นสมการพหุนาม
 
+📚 สิ่งที่นักเรียนจะได้เรียนรู้:
+- CSS Custom Properties (CSS Variables)
+- CSS Grid และ Flexbox Layout
+- CSS Animations และ Transitions
+- Responsive Web Design
+- CSS Gradients และ Box Shadows
+- CSS Pseudo-elements และ Pseudo-classes
+- Modern CSS Techniques
+- Bootstrap 5 Customization
+- CSS Architecture และ Organization
+*/
+
+/* 
+🎨 CSS Custom Properties (CSS Variables) - ตัวแปร CSS
+====================================================
+การใช้ CSS Variables ช่วยให้จัดการสีและค่าต่างๆ ได้ง่าย
+และทำให้การดูแลรักษาโค้ดสะดวกขึ้น
+*/
 :root {
-    --primary-color: #009688;
-    --primary-dark: #313187;
-    --secondary-color: #6c757d;
-    --success-color: #28a745;
-    --warning-color: #ffc107;
-    --danger-color: #dc3545;
-    --info-color: #00bcd4;
-    --light-color: #f8f9fa;
-    --dark-color: #343a40;
+    /* 🎨 Color Palette - จานสีหลัก */
+    --primary-color: #009688;       /* สีหลัก (Teal) */
+    --primary-dark: #313187;        /* สีหลักแบบเข้ม (Deep Purple) */
+    --secondary-color: #6c757d;     /* สีรอง (Gray) */
+    --success-color: #28a745;       /* สีสำเร็จ (Green) */
+    --warning-color: #ffc107;       /* สีเตือน (Yellow) */
+    --danger-color: #dc3545;        /* สีอันตราย (Red) */
+    --info-color: #00bcd4;          /* สีข้อมูล (Cyan) */
+    --light-color: #f8f9fa;         /* สีอ่อน (Light Gray) */
+    --dark-color: #343a40;          /* สีเข้ม (Dark Gray) */
+    
+    /* 🌈 Gradient Definitions - การไล่สี */
     --gradient-primary: linear-gradient(45deg, rgba(0, 152, 139, 1) 25%, rgba(49, 49, 135, 1) 85%);
     --gradient-secondary: linear-gradient(135deg, #26a69a 0%, #5c6bc0 100%);
     --gradient-success: linear-gradient(135deg, #00bcd4 0%, #009688 100%);
     --gradient-hero: linear-gradient(45deg, rgba(0, 152, 139, 1) 25%, rgba(49, 49, 135, 1) 85%);
-    --shadow-light: 0 4px 15px rgba(0, 152, 139, 0.15);
-    --shadow-medium: 0 8px 25px rgba(0, 152, 139, 0.2);
-    --shadow-heavy: 0 15px 35px rgba(0, 152, 139, 0.25);
-    --border-radius: 12px;
-    --border-radius-lg: 20px;
+    
+    /* 💫 Shadow Definitions - เงา */
+    --shadow-light: 0 4px 15px rgba(0, 152, 139, 0.15);    /* เงาเบา */
+    --shadow-medium: 0 8px 25px rgba(0, 152, 139, 0.2);    /* เงากลาง */
+    --shadow-heavy: 0 15px 35px rgba(0, 152, 139, 0.25);   /* เงาหนัก */
+    
+    /* 📐 Border Radius - ความโค้งมุม */
+    --border-radius: 12px;          /* ความโค้งปกติ */
+    --border-radius-lg: 20px;       /* ความโค้งใหญ่ */
 }
 
+/* 
+📄 Body Styling - การตกแต่ง Body Element
+========================================
+กำหนดฟอนต์, พื้นหลัง และ Layout พื้นฐานของหน้าเว็บ
+*/
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    line-height: 1.6;
-    background: linear-gradient(45deg, rgba(0, 152, 139, 1) 25%, rgba(49, 49, 135, 1) 85%);
-    min-height: 100vh;
-    background-attachment: fixed;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* ฟอนต์ที่ดูดีและอ่านง่าย */
+    line-height: 1.6;  /* ความสูงของบรรทัด */
+    background: linear-gradient(45deg, rgba(0, 152, 139, 1) 25%, rgba(49, 49, 135, 1) 85%); /* พื้นหลังไล่สี */
+    min-height: 100vh; /* ความสูงขั้นต่ำ = ความสูงของหน้าจอ */
+    background-attachment: fixed; /* พื้นหลังไม่เลื่อนตาม Content */
 }
 
-/* Typography */
+/* 
+✍️ Typography - การตกแต่งตัวอักษร
+================================
+กำหนดน้ำหนักฟอนต์สำหรับหัวข้อต่างๆ
+*/
 h1, h2, h3, h4, h5, h6 {
-    font-weight: 600;
+    font-weight: 600; /* น้ำหนักฟอนต์แบบกึ่งหนา */
 }
 
-/* Navigation */
+/* 
+🧭 Navigation Bar - แถบเมนูนำทาง
+===============================
+การตกแต่ง Navigation Bar ให้ดูทันสมัยและโปร่งใส
+*/
 .navbar {
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-    background: rgba(0, 152, 139, 0.9) !important;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 4px 15px rgba(0, 152, 139, 0.3);
+    /* 🌫️ Backdrop Filter - เอฟเฟกต์เบลอพื้นหลัง (Modern CSS) */
+    -webkit-backdrop-filter: blur(10px); /* Safari */
+    backdrop-filter: blur(10px);          /* Browser อื่นๆ */
+    background: rgba(0, 152, 139, 0.9) !important; /* พื้นหลังแบบโปร่งใส */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* เส้นขอบล่าง */
+    box-shadow: 0 4px 15px rgba(0, 152, 139, 0.3); /* เงา */
 }
 
 .navbar-brand {
-    font-weight: 700;
-    font-size: 1.4rem;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-weight: 700;  /* น้ำหนักฟอนต์หนา */
+    font-size: 1.4rem; /* ขนาดฟอนต์ */
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* เงาข้อความ */
 }
 
+/* 
+🔗 Navigation Links - ลิงก์ในเมนู
+================================
+การตกแต่งลิงก์ในเมนูให้มี Hover Effects และ Transitions
+*/
 .nav-link {
-    font-weight: 500;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
+    font-weight: 500; /* น้ำหนักฟอนต์กึ่งหนา */
+    transition: all 0.3s ease; /* เอฟเฟกต์ Transition นุ่มนวล */
+    position: relative; /* สำหรับ Pseudo-element */
+    overflow: hidden;   /* ซ่อนส่วนที่เกิน */
 }
 
+/* 
+🎨 Hover Effect - เอฟเฟกต์เมื่อวางเมาส์
+========================================
+สร้างเส้นใต้ที่ขยายออกเมื่อ Hover
+*/
 .nav-link::before {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: white;
-    transition: width 0.3s ease;
+    content: '';        /* สร้าง Element ว่าง */
+    position: absolute; /* ตำแหน่งแบบ Absolute */
+    bottom: 0;         /* ติดด้านล่าง */
+    left: 0;           /* ติดด้านซ้าย */
+    width: 0;          /* ความกว้างเริ่มต้น = 0 */
+    height: 2px;       /* ความสูง 2px */
+    background: white; /* สีขาว */
+    transition: width 0.3s ease; /* เอฟเฟกต์ขยายความกว้าง */
 }
 
 .nav-link:hover::before {
-    width: 100%;
+    width: 100%; /* ขยายเต็มความกว้างเมื่อ Hover */
 }
 
-/* Hero Section */
+/* 
+🎨 Hero Section - ส่วนหัวของเว็บไซต์
+===================================
+ส่วนแสดงข้อมูลหลักพร้อมพื้นหลังไล่สีและเอฟเฟกต์
+*/
 .hero-section {
     background: linear-gradient(45deg, rgba(0, 152, 139, 1) 25%, rgba(49, 49, 135, 1) 85%);
-    min-height: 70vh;
-    display: flex;
-    align-items: center;
-    position: relative;
-    overflow: hidden;
+    min-height: 70vh;   /* ความสูงขั้นต่ำ 70% ของหน้าจอ */
+    display: flex;      /* ใช้ Flexbox Layout */
+    align-items: center; /* จัดกึ่งกลางแนวตั้ง */
+    position: relative; /* สำหรับ Pseudo-element */
+    overflow: hidden;   /* ซ่อนส่วนที่เกิน */
 }
 
+/* 
+✨ Animated Background Pattern - พื้นหลังลายเคลื่อนไหว
+====================================================
+สร้างจุดเล็กๆ ที่ลอยเคลื่อนไหวเป็น Background Pattern
+*/
 .hero-section::before {
     content: '';
     position: absolute;
@@ -88,185 +149,266 @@ h1, h2, h3, h4, h5, h6 {
     left: 0;
     right: 0;
     bottom: 0;
+    /* SVG Pattern ของจุดเล็กๆ */
     background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.1)"/><circle cx="90" cy="40" r="0.5" fill="rgba(255,255,255,0.1)"/></svg>');
-    animation: float 20s infinite linear;
+    animation: float 20s infinite linear; /* Animation ลอยเคลื่อนไหว */
 }
 
+/* 
+🌊 Float Animation - Animation การลอย
+====================================
+Animation ที่ทำให้ Background Pattern เคลื่อนไหว
+*/
 @keyframes float {
-    0% { transform: translateY(0px) rotate(0deg); }
-    100% { transform: translateY(-100px) rotate(360deg); }
+    0% { 
+        transform: translateY(0px) rotate(0deg); /* ตำแหน่งเริ่มต้น */
+    }
+    100% { 
+        transform: translateY(-100px) rotate(360deg); /* เลื่อนขึ้นและหมุน */
+    }
 }
 
-.bg-gradient-primary {
-    background: linear-gradient(45deg, rgba(0, 152, 139, 1) 25%, rgba(49, 49, 135, 1) 85%);
-}
+/* 
+🎭 Hero Animations - เอฟเฟกต์ Animation สำหรับ Hero Section
+==========================================================
+Animation ต่างๆ ที่ทำให้ Hero Section ดูมีชีวิตชีวา
+*/
 
-.display-4 {
-    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-/* Hero Animation */
+/* 📝 Title Animation - Animation สำหรับหัวเรื่อง */
 .hero-title {
-    animation: slideInLeft 1s ease-out;
+    animation: slideInLeft 1s ease-out; /* เลื่อนเข้าจากซ้าย */
 }
 
+/* 📄 Subtitle Animation - Animation สำหรับคำอธิบาย */
 .hero-subtitle {
-    animation: slideInLeft 1.2s ease-out;
+    animation: slideInLeft 1.2s ease-out; /* เลื่อนเข้าจากซ้าย (ช้ากว่า) */
 }
 
+/* 🔘 Buttons Animation - Animation สำหรับปุ่ม */
 .hero-buttons {
-    animation: slideInUp 1.4s ease-out;
+    animation: slideInUp 1.4s ease-out; /* เลื่อนขึ้นจากล่าง */
 }
 
+/* 
+🎬 Keyframe Animations - การกำหนด Animation
+==========================================
+กำหนดขั้นตอนการเคลื่อนไหวสำหรับ Animation ต่างๆ
+*/
+
+/* เลื่อนเข้าจากซ้าย */
 @keyframes slideInLeft {
     from {
-        opacity: 0;
-        transform: translateX(-50px);
+        opacity: 0;                    /* เริ่มจากโปร่งใส */
+        transform: translateX(-50px);  /* อยู่ทางซ้าย 50px */
     }
     to {
-        opacity: 1;
-        transform: translateX(0);
+        opacity: 1;                    /* จบที่ทึบแสง */
+        transform: translateX(0);      /* อยู่ที่ตำแหน่งปกติ */
     }
 }
 
+/* เลื่อนขึ้นจากล่าง */
 @keyframes slideInUp {
     from {
-        opacity: 0;
-        transform: translateY(30px);
+        opacity: 0;                    /* เริ่มจากโปร่งใส */
+        transform: translateY(30px);   /* อยู่ด้านล่าง 30px */
     }
     to {
-        opacity: 1;
-        transform: translateY(0);
+        opacity: 1;                    /* จบที่ทึบแสง */
+        transform: translateY(0);      /* อยู่ที่ตำแหน่งปกติ */
     }
 }
 
-/* Floating Icon Animation */
+/* 
+🎯 Floating Icon Animation - ไอคอนลอยเคลื่อนไหว
+===============================================
+Animation ที่ทำให้ไอคอนลอยขึ้นลงเหมือนลอยในอากาศ
+*/
 .floating-icon {
-    animation: floatIcon 3s ease-in-out infinite;
+    animation: floatIcon 3s ease-in-out infinite; /* วนซ้ำไม่สิ้นสุด */
 }
 
 @keyframes floatIcon {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-20px); }
+    0%, 100% { 
+        transform: translateY(0px);    /* ตำแหน่งปกติ */
+    }
+    50% { 
+        transform: translateY(-20px);  /* ลอยขึ้น 20px */
+    }
 }
 
+/* 
+🎪 Hero Decoration - การตกแต่งส่วน Hero
+======================================
+พื้นที่สำหรับ Elements ที่ลอยอยู่รอบๆ
+*/
 .hero-decoration {
-    position: relative;
-    margin-top: 2rem;
+    position: relative; /* สำหรับ Absolute Positioning ของลูก */
+    margin-top: 2rem;   /* ระยะห่างด้านบน */
 }
 
+/* 
+🎈 Floating Elements - Elements ที่ลอยเคลื่อนไหว
+================================================
+Elements เล็กๆ (Emoji) ที่ลอยเคลื่อนไหวรอบๆ ไอคอนหลัก
+*/
 .floating-element {
-    position: absolute;
-    font-size: 2rem;
-    opacity: 0.7;
-    animation: floatAround 6s ease-in-out infinite;
+    position: absolute;    /* ตำแหน่งแบบ Absolute */
+    font-size: 2rem;      /* ขนาดใหญ่ */
+    opacity: 0.7;         /* โปร่งใสเล็กน้อย */
+    animation: floatAround 6s ease-in-out infinite; /* Animation วนซ้ำ */
 }
 
+/* ตำแหน่งและจังหวะ Animation ของแต่ละ Element */
 .floating-element:nth-child(1) {
-    top: -50px;
-    left: 50px;
-    animation-delay: 0s;
+    top: -50px;           /* อยู่ด้านบน */
+    left: 50px;           /* อยู่ด้านซ้าย */
+    animation-delay: 0s;  /* เริ่ม Animation ทันที */
 }
 
 .floating-element:nth-child(2) {
-    top: -30px;
-    right: 30px;
-    animation-delay: 2s;
+    top: -30px;           /* อยู่ด้านบน (ใกล้กว่า element แรก) */
+    right: 30px;          /* อยู่ด้านขวา */
+    animation-delay: 2s;  /* เริ่ม Animation หลัง 2 วินาที */
 }
 
 .floating-element:nth-child(3) {
-    bottom: -40px;
-    left: 30px;
-    animation-delay: 4s;
+    bottom: -40px;        /* อยู่ด้านล่าง */
+    left: 30px;           /* อยู่ด้านซ้าย */
+    animation-delay: 4s;  /* เริ่ม Animation หลัง 4 วินาที */
 }
 
+/* 
+🎪 Float Around Animation - Animation การลอยรอบๆ
+===============================================
+Animation ที่ทำให้ Elements ลอยเคลื่อนไหวแบบหมุนรอบ
+*/
 @keyframes floatAround {
     0%, 100% { 
-        transform: translateY(0px) rotate(0deg);
-        opacity: 0.7;
+        transform: translateY(0px) rotate(0deg);   /* ตำแหน่งเริ่มต้น */
+        opacity: 0.7;                             /* ความโปร่งใส 70% */
     }
     33% { 
-        transform: translateY(-15px) rotate(120deg);
-        opacity: 0.9;
+        transform: translateY(-15px) rotate(120deg); /* ลอยขึ้นและหมุน 120° */
+        opacity: 0.9;                               /* ความโปร่งใส 90% */
     }
     66% { 
-        transform: translateY(10px) rotate(240deg);
-        opacity: 0.5;
+        transform: translateY(10px) rotate(240deg);  /* ลอยลงและหมุน 240° */
+        opacity: 0.5;                               /* ความโปร่งใส 50% */
     }
 }
 
-/* Upload Area */
+/* 
+📤 Upload Area - พื้นที่อัปโหลดไฟล์
+==================================
+การตกแต่งพื้นที่สำหรับ Drag & Drop และการอัปโหลดไฟล์
+*/
 .upload-area {
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    cursor: pointer;
+    /* 🎭 Smooth Transition - การเปลี่ยนแปลงที่นุ่มนวล */
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); /* Cubic Bezier สำหรับความนุ่มนวล */
+    cursor: pointer; /* เปลี่ยน Cursor เป็นมือเมื่อ Hover */
+    
+    /* 🌫️ Glass Morphism Effect - เอฟเฟกต์แก้วโปร่งใส */
     background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.9));
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); /* Safari */
+    backdrop-filter: blur(10px);         /* Browser อื่นๆ */
+    
+    /* 🔲 Dashed Border - เส้นขอบแบบประ */
     border: 2px dashed rgba(0, 152, 139, 0.4);
-    position: relative;
-    overflow: hidden;
+    
+    position: relative; /* สำหรับ Pseudo-element */
+    overflow: hidden;   /* ซ่อนส่วนที่เกิน */
 }
 
+/* 
+✨ Shimmer Effect - เอฟเฟกต์แสงวิ่ง
+====================================
+สร้างเอฟเฟกต์แสงวิ่งผ่านเมื่อ Hover
+*/
 .upload-area::before {
     content: '';
     position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
+    top: -50%;          /* อยู่เหนือพื้นที่ปกติ */
+    left: -50%;         /* อยู่ซ้ายของพื้นที่ปกติ */
+    width: 200%;        /* ขนาดใหญ่กว่าพื้นที่จริง */
+    height: 200%;       /* ขนาดใหญ่กว่าพื้นที่จริง */
     background: linear-gradient(45deg, transparent, rgba(0, 152, 139, 0.15), transparent);
-    transform: rotate(45deg);
+    transform: rotate(45deg); /* หมุน 45 องศา */
     transition: all 0.6s ease;
-    opacity: 0;
+    opacity: 0;         /* ซ่อนไว้ตอนเริ่มต้น */
 }
 
+/* 
+🖱️ Hover State - สถานะเมื่อวางเมาส์
+===================================
+การเปลี่ยนแปลงเมื่อผู้ใช้วางเมาส์บนพื้นที่อัปโหลด
+*/
 .upload-area:hover {
     background: linear-gradient(145deg, rgba(0, 152, 139, 0.1), rgba(49, 49, 135, 0.05));
-    border-color: var(--primary-color) !important;
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0, 152, 139, 0.2);
+    border-color: var(--primary-color) !important; /* เปลี่ยนสีขอบ */
+    transform: translateY(-5px);                    /* ยกขึ้น 5px */
+    box-shadow: 0 8px 25px rgba(0, 152, 139, 0.2); /* เพิ่มเงา */
 }
 
 .upload-area:hover::before {
-    opacity: 1;
-    animation: shimmer 1.5s ease-in-out;
+    opacity: 1;                        /* แสดง Shimmer Effect */
+    animation: shimmer 1.5s ease-in-out; /* เริ่ม Animation */
 }
 
+/* 
+💫 Shimmer Animation - Animation แสงวิ่ง
+=======================================
+Animation ที่ทำให้แสงวิ่งผ่านพื้นที่อัปโหลด
+*/
 @keyframes shimmer {
-    0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-    100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+    0% { 
+        transform: translateX(-100%) translateY(-100%) rotate(45deg); /* เริ่มนอกซ้ายบน */
+    }
+    100% { 
+        transform: translateX(100%) translateY(100%) rotate(45deg);   /* จบนอกขวาล่าง */
+    }
 }
 
+/* 
+🎯 Drag Over State - สถานะเมื่อลากไฟล์เหนือพื้นที่
+=================================================
+การเปลี่ยนแปลงเมื่อลากไฟล์มาวางเหนือพื้นที่อัปโหลด
+*/
 .upload-area.drag-over {
     background: linear-gradient(145deg, rgba(40, 167, 69, 0.15), rgba(0, 188, 212, 0.1));
-    border-color: var(--success-color) !important;
-    transform: scale(1.02);
-    box-shadow: 0 15px 35px rgba(40, 167, 69, 0.25);
+    border-color: var(--success-color) !important; /* เปลี่ยนเป็นสีเขียว */
+    transform: scale(1.02);                         /* ขยายเล็กน้อย */
+    box-shadow: 0 15px 35px rgba(40, 167, 69, 0.25); /* เงาสีเขียว */
 }
 
-/* Cards */
+/* 
+🃏 Cards - การ์ดต่างๆ
+====================
+การตกแต่งการ์ดสำหรับแสดงข้อมูลและ Content
+*/
 .card {
-    border: none;
-    border-radius: var(--border-radius);
-    overflow: hidden;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);    background: rgba(255, 255, 255, 0.95);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-    box-shadow: var(--shadow-light);
+    border: none;                                    /* ไม่มีขอบ */
+    border-radius: var(--border-radius);            /* ใช้ CSS Variable สำหรับความโค้ง */
+    overflow: hidden;                               /* ซ่อนส่วนที่เกิน */
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); /* Transition นุ่มนวล */
+    background: rgba(255, 255, 255, 0.95);          /* พื้นหลังขาวโปร่งใส */
+    -webkit-backdrop-filter: blur(10px);            /* เอฟเฟกต์เบลอพื้นหลัง */
+    backdrop-filter: blur(10px);                     /* สำหรับ Browser อื่นๆ */
+    box-shadow: var(--shadow-light);                /* เงาเบา */
 }
 
 .card:hover {
-    transform: translateY(-8px);
-    box-shadow: var(--shadow-heavy);
+    transform: translateY(-8px);                    /* ยกการ์ดขึ้นเมื่อ Hover */
+    box-shadow: var(--shadow-heavy);                /* เงาหนักขึ้น */
 }
 
 .card-header {
-    background: var(--gradient-primary) !important;
-    color: white !important;
-    border-bottom: none;
-    padding: 1.5rem;
-    position: relative;
-    overflow: hidden;
+    background: var(--gradient-primary) !important; /* พื้นหลังแบบไล่สี */
+    color: white !important;                        /* สีข้อความขาว */
+    border-bottom: none;                           /* ไม่มีเส้นขอบล่าง */
+    padding: 1.5rem;                              /* ระยะห่างภายใน */
+    position: relative;                           /* สำหรับ Pseudo-element */
+    overflow: hidden;                             /* ซ่อนส่วนที่เกิน */
 }
 
 .card-header::before {

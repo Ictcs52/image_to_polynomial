@@ -1,30 +1,59 @@
 <!DOCTYPE html>
+<!-- 
+    🎯 Image to Polynomial Web App - ไฟล์ HTML หลัก
+    ========================================================
+    นี่คือแอปพลิเคชันเว็บที่ใช้แปลงภาพเป็นสมการพหุนาม
+    โดยใช้เทคนิค Computer Vision และ Machine Learning
+    
+    📚 การเรียนรู้สำหรับนักเรียน:
+    - HTML5 Structure และ Semantic Elements
+    - Bootstrap 5 Framework สำหรับ Responsive Design
+    - CSS Grid และ Flexbox Layout
+    - JavaScript DOM Manipulation
+    - HTML5 Canvas API สำหรับ Image Processing
+    - Event Handling และ File API
+-->
 <html lang="th">
 <head>
+    <!-- กำหนด Character Encoding เป็น UTF-8 เพื่อรองรับภาษาไทย -->
     <meta charset="UTF-8">
+    <!-- ทำให้เว็บไซต์ Responsive บนอุปกรณ์มือถือ -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- ชื่อหน้าเว็บที่จะแสดงบน Browser Tab -->
     <title>🎯 Image to Polynomial Web App</title>
     
-    <!-- Bootstrap CSS -->
+    <!-- 📦 External CSS Libraries -->
+    <!-- Bootstrap CSS Framework - ใช้สำหรับ UI Components และ Grid System -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome Icons - ใช้สำหรับแสดง Icons สวยงาม -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     
-    <!-- Custom CSS -->
+    <!-- 🎨 Custom CSS - ไฟล์ CSS ที่เราเขียนเองสำหรับ Custom Styling -->
     <link href="styles.css" rel="stylesheet">
 </head>
 <body>
-    <!-- Navigation -->
+    <!-- 
+        🧭 Navigation Bar - แถบเมนูนำทาง
+        ======================================
+        ใช้ Bootstrap Navbar Component
+        - navbar-expand-lg: ขยายเมนูบนหน้าจอใหญ่
+        - navbar-dark: ธีมสีเข้ม
+        - bg-primary: สีพื้นหลังหลักของ Bootstrap
+    -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
+            <!-- Logo และชื่อแอป -->
             <a class="navbar-brand" href="#">
                 <i class="fas fa-chart-line me-2"></i>
                 Image to Polynomial
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            </a>            <!-- ปุ่ม Hamburger Menu สำหรับมือถือ -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" title="เปิด/ปิดเมนู">
                 <span class="navbar-toggler-icon"></span>
             </button>
+            <!-- เมนูนำทาง -->
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
+                    <!-- เมนูไปยังส่วนต่างๆ ของหน้าเว็บ (Single Page Application) -->
                     <li class="nav-item">
                         <a class="nav-link" href="#upload-section">อัปโหลด</a>
                     </li>
@@ -39,29 +68,46 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- 
+        🎨 Hero Section - ส่วนหัวของเว็บไซต์
+        ========================================
+        ส่วนแสดงข้อมูลหลักและปุ่มเริ่มต้น
+        - Bootstrap Grid System (row/col)
+        - Custom CSS Classes สำหรับ Animation
+    -->
     <section class="hero-section bg-gradient-primary text-white py-5">
         <div class="container">
-            <div class="row align-items-center">                <div class="col-lg-6">
+            <div class="row align-items-center">
+                <!-- ส่วนข้อความและปุ่ม (ฝั่งซ้าย) -->
+                <div class="col-lg-6">
+                    <!-- หัวเรื่องหลัก -->
                     <h1 class="display-4 fw-bold mb-4 hero-title">
                         🎯 แปลงภาพเป็นสมการพหุนาม
                     </h1>
+                    <!-- คำอธิบายย่อ -->
                     <p class="lead mb-4 hero-subtitle">
                         ใช้เทคนิค <span class="text-warning fw-bold">Computer Vision</span> และ 
                         <span class="text-info fw-bold">Machine Learning</span> 
                         เพื่อแปลงภาพขาวดำหรือลายเส้นเป็นสมการพหุนาม
                     </p>
+                    <!-- ปุ่มเริ่มต้นใช้งาน -->
                     <div class="d-flex gap-3 hero-buttons">
+                        <!-- ปุ่มเริ่มใช้งาน - เรียกฟังก์ชัน JavaScript -->
                         <button class="btn btn-light btn-lg shadow-lg" onclick="scrollToSection('upload-section')">
                             <i class="fas fa-rocket me-2"></i>🚀 เริ่มต้นใช้งาน
                         </button>
+                        <!-- ปุ่มเรียนรู้เพิ่มเติม -->
                         <button class="btn btn-outline-light btn-lg shadow-lg" onclick="scrollToSection('about-section')">
                             <i class="fas fa-info-circle me-2"></i>📚 เรียนรู้เพิ่มเติม
                         </button>
                     </div>
-                </div>                <div class="col-lg-6">
+                </div>
+                <!-- ส่วนไอคอนและ Animation (ฝั่งขวา) -->
+                <div class="col-lg-6">
                     <div class="text-center">
+                        <!-- ไอคอนหลักที่มี Animation -->
                         <i class="fas fa-chart-line display-1 text-white-50 floating-icon"></i>
+                        <!-- Elements ที่ลอยอยู่รอบๆ -->
                         <div class="hero-decoration">
                             <div class="floating-element">📊</div>
                             <div class="floating-element">📈</div>
@@ -71,7 +117,17 @@
                 </div>
             </div>
         </div>
-    </section>    <!-- Upload Section -->
+    </section>
+
+    <!-- 
+        📤 Upload Section - ส่วนอัปโหลดภาพ
+        =====================================
+        ส่วนสำคัญที่ให้ผู้ใช้อัปโหลดภาพและตั้งค่าต่างๆ
+        - Drag & Drop File Upload
+        - File Preview
+        - Settings Panel
+        - Progress Bar
+    -->
     <section id="upload-section" class="py-5 bg-upload">
         <div class="container">
             <div class="row justify-content-center">
@@ -83,7 +139,15 @@
                             </h3>
                         </div>
                         <div class="card-body p-4">
-                            <!-- File Upload Area -->
+                            <!-- 
+                                📂 File Upload Area - พื้นที่อัปโหลดไฟล์
+                                ======================================
+                                ใช้ Drag & Drop API ของ HTML5 และ File API
+                                - ondrop: เมื่อวางไฟล์
+                                - ondragover: เมื่อลากไฟล์เหนือพื้นที่
+                                - ondragenter: เมื่อเริ่มลากไฟล์เข้าพื้นที่
+                                - ondragleave: เมื่อลากไฟล์ออกจากพื้นที่
+                            -->
                             <div class="upload-area border-2 border-dashed border-primary rounded p-5 text-center mb-4" 
                                  id="uploadArea" 
                                  ondrop="handleDrop(event)" 
@@ -92,10 +156,15 @@
                                  ondragleave="handleDragLeave(event)">
                                 <i class="fas fa-cloud-upload-alt display-3 text-primary mb-3"></i>
                                 <h4 class="text-primary">ลากและวางไฟล์ที่นี่</h4>
-                                <p class="text-muted mb-3">หรือคลิกเพื่อเลือกไฟล์</p>                                
-                                <input type="file" id="fileInput" class="d-none" accept=".jpg,.jpeg,.png" onchange="handleFileSelect(event)">                                <button class="btn btn-primary btn-lg px-5 py-3 shadow-lg" id="selectFileBtn">
+                                <p class="text-muted mb-3">หรือคลิกเพื่อเลือกไฟล์</p>
+                                <!-- Hidden File Input - ซ่อนไว้และจะถูกเปิดผ่านปุ่ม -->
+                                <input type="file" id="fileInput" class="d-none" accept=".jpg,.jpeg,.png" onchange="handleFileSelect(event)" title="เลือกไฟล์ภาพ" aria-label="เลือกไฟล์ภาพ">
+                                <!-- ปุ่มเลือกไฟล์ - จะเรียก FileInput เมื่อคลิก -->
+                                <button class="btn btn-primary btn-lg px-5 py-3 shadow-lg" id="selectFileBtn">
                                     <i class="fas fa-cloud-upload-alt me-2"></i>📁 เลือกไฟล์ภาพ
-                                </button><div class="mt-3">
+                                </button>
+                                <!-- ข้อมูลเพิ่มเติมและเคล็ดลับ -->
+                                <div class="mt-3">
                                     <small class="text-muted">
                                         <i class="fas fa-info-circle text-info me-1"></i>
                                         รองรับไฟล์: <strong class="text-primary">JPG, JPEG, PNG</strong> เท่านั้น 
@@ -109,9 +178,16 @@
                                 </div>
                             </div>
 
-                            <!-- Preview Area -->
+                            <!-- 
+                                🖼️ Preview Area - พื้นที่แสดงตัวอย่างและการตั้งค่า
+                                ================================================
+                                แสดงเมื่อมีการเลือกไฟล์แล้ว (d-none = display: none)
+                                - Bootstrap Grid System (col-md-6)
+                                - Card Components สำหรับจัดกลุ่มข้อมูล
+                            -->
                             <div id="previewArea" class="d-none">
                                 <div class="row">
+                                    <!-- ส่วนแสดงภาพตัวอย่าง -->
                                     <div class="col-md-6">
                                         <div class="card">
                                             <div class="card-header">
@@ -122,12 +198,20 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <!-- ส่วนการตั้งค่าพารามิเตอร์ -->
                                     <div class="col-md-6">
                                         <div class="card">
                                             <div class="card-header">
                                                 <h6 class="card-title mb-0">การตั้งค่า</h6>
                                             </div>
                                             <div class="card-body">
+                                                <!-- 
+                                                    🔢 Polynomial Degree Selection - เลือกดีกรีพหุนาม
+                                                    ===================================================
+                                                    ให้ผู้ใช้เลือกดีกรีพหุนามที่ต้องการวิเคราะห์
+                                                    - Checkbox Input สำหรับเลือกหลายดีกรี
+                                                    - ค่าเริ่มต้น: ดีกรี 2, 3, 4 เลือกไว้
+                                                -->
                                                 <div class="mb-3">
                                                     <label class="form-label">ดีกรีพหุนาม</label>
                                                     <div class="form-check">
@@ -156,6 +240,14 @@
                                                     </div>
                                                 </div>
                                                 
+                                                <!-- 
+                                                    🎚️ Edge Detection Sensitivity - ความไวการตรวจจับขอบ
+                                                    ===================================================
+                                                    Slider สำหรับปรับความไวในการตรวจจับขอบของภาพ
+                                                    - Range Input: 50-200
+                                                    - ค่าเริ่มต้น: 100
+                                                    - ยิ่งสูง = ยิ่งไว = จับขอบได้มากขึ้น
+                                                -->
                                                 <div class="mb-3">
                                                     <label for="edgeThreshold" class="form-label">ความไว Edge Detection</label>
                                                     <input type="range" class="form-range" id="edgeThreshold" min="50" max="200" value="100">
@@ -163,7 +255,10 @@
                                                         <small>น้อย</small>
                                                         <small>มาก</small>
                                                     </div>
-                                                </div>                                <button class="btn btn-success btn-lg w-100 shadow-lg" onclick="processImage()">
+                                                </div>
+                                                
+                                                <!-- ปุ่มเริ่มวิเคราะห์ - เรียกฟังก์ชัน processImage() -->
+                                                <button class="btn btn-success btn-lg w-100 shadow-lg" onclick="processImage()">
                                                     <i class="fas fa-magic me-2"></i>🔍 เริ่มวิเคราะห์ภาพ
                                                 </button>
                                             </div>
@@ -172,14 +267,23 @@
                                 </div>
                             </div>
 
-                            <!-- Progress Bar -->
+                            <!-- 
+                                📊 Progress Bar - แถบแสดงความคืบหน้า
+                                =====================================
+                                แสดงเมื่อกำลังประมวลผลภาพ
+                                - Bootstrap Progress Component
+                                - Animated Striped Progress Bar
+                                - อัปเดตผ่าน JavaScript
+                            -->
                             <div id="progressArea" class="d-none mt-4">
                                 <div class="card">
                                     <div class="card-body">
                                         <h6 class="card-title">
                                             <i class="fas fa-spinner fa-spin me-2"></i>กำลังประมวลผล...
                                         </h6>
-                                        <div class="progress">                                            <div id="progressBar" class="progress-bar progress-bar-striped progress-bar-animated" 
+                                        <div class="progress">
+                                            <!-- Progress Bar ที่สามารถอัปเดตค่าได้ -->
+                                            <div id="progressBar" class="progress-bar progress-bar-striped progress-bar-animated" 
                                                  role="progressbar" 
                                                  aria-label="การประมวลผลภาพ"
                                                  aria-valuenow="0"
@@ -206,48 +310,75 @@
                 </div>
             </div>
 
+            <!-- 
+                📈 Results Container - คอนเทนเนอร์หลักสำหรับแสดงผลลัพธ์
+                =========================================================
+                แสดงเมื่อมีการประมวลผลสำเร็จ (d-none = ซ่อนไว้ตอนเริ่มต้น)
+            -->
             <div id="resultsContainer" class="d-none">
-                <!-- Statistics Cards -->
-                <div class="row mb-4">                    <div class="col-md-3">
+                <!-- 
+                    📊 Statistics Cards - การ์ดแสดงค่าสถิติ
+                    ========================================
+                    แสดงค่าสถิติสำคัญของการวิเคราะห์
+                    - Bootstrap Grid System (col-md-3) สำหรับ 4 การ์ด
+                    - แต่ละการ์ดแสดงข้อมูลสถิติแตกต่างกัน
+                -->
+                <div class="row mb-4">
+                    <!-- การ์ดที่ 1: ดีกรีที่ดีที่สุด -->
+                    <div class="col-md-3">
                         <div class="card text-center h-100 border-0 shadow-lg">
                             <div class="card-body">
                                 <i class="fas fa-trophy text-warning fa-2x mb-2"></i>
                                 <h5 class="card-title">🏆 ดีกรีที่ดีที่สุด</h5>
+                                <!-- ค่าจะถูกอัปเดตจาก JavaScript -->
                                 <h3 id="bestDegree" class="text-primary fw-bold">-</h3>
                             </div>
                         </div>
                     </div>
+                    <!-- การ์ดที่ 2: R² Score (ค่าความแม่นยำ) -->
                     <div class="col-md-3">
                         <div class="card text-center h-100 border-0 shadow-lg">
                             <div class="card-body">
                                 <i class="fas fa-bullseye text-success fa-2x mb-2"></i>
                                 <h5 class="card-title">🎯 R² Score</h5>
+                                <!-- R² Score ยิ่งใกล้ 1 = ยิ่งแม่นยำ -->
                                 <h3 id="bestR2" class="text-success fw-bold">-</h3>
                             </div>
                         </div>
                     </div>
+                    <!-- การ์ดที่ 3: RMSE (Root Mean Square Error) -->
                     <div class="col-md-3">
                         <div class="card text-center h-100 border-0 shadow-lg">
                             <div class="card-body">
                                 <i class="fas fa-exclamation-triangle text-warning fa-2x mb-2"></i>
                                 <h5 class="card-title">⚠️ RMSE</h5>
+                                <!-- RMSE ยิ่งน้อย = ยิ่งแม่นยำ -->
                                 <h3 id="bestRMSE" class="text-warning fw-bold">-</h3>
                             </div>
                         </div>
                     </div>
+                    <!-- การ์ดที่ 4: จำนวนจุดข้อมูล -->
                     <div class="col-md-3">
                         <div class="card text-center h-100 border-0 shadow-lg">
                             <div class="card-body">
                                 <i class="fas fa-dot-circle text-info fa-2x mb-2"></i>
                                 <h5 class="card-title">📊 จำนวนจุดข้อมูล</h5>
+                                <!-- จำนวนจุดที่สกัดได้จากภาพ -->
                                 <h3 id="dataPoints" class="text-info fw-bold">-</h3>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Charts -->
+                <!-- 
+                    📊 Charts Section - ส่วนแสดงกราฟและการวิเคราะห์
+                    ===================================================
+                    แสดงผลการวิเคราะห์ในรูปแบบกราฟ
+                    - Bootstrap Grid 2 คอลัมน์ (col-lg-6)
+                    - ใช้ HTML5 Canvas สำหรับการแสดงผล
+                -->
                 <div class="row mb-4">
+                    <!-- กราฟที่ 1: การตรวจหาขอบ (Edge Detection Result) -->
                     <div class="col-lg-6">
                         <div class="card h-100">
                             <div class="card-header">
@@ -256,10 +387,12 @@
                                 </h5>
                             </div>
                             <div class="card-body">
+                                <!-- Canvas สำหรับแสดงผลการตรวจหาขอบ -->
                                 <canvas id="edgeCanvas" class="img-fluid"></canvas>
                             </div>
                         </div>
                     </div>
+                    <!-- กราฟที่ 2: เปรียบเทียบพหุนาม -->
                     <div class="col-lg-6">
                         <div class="card h-100">
                             <div class="card-header">
@@ -268,13 +401,20 @@
                                 </h5>
                             </div>
                             <div class="card-body">
+                                <!-- Canvas สำหรับแสดงกราฟเปรียบเทียบพหุนาม -->
                                 <canvas id="polynomialChart"></canvas>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Polynomial Equations -->
+                <!-- 
+                    🧮 Polynomial Equations Section - ส่วนแสดงสมการพหุนาม
+                    ========================================================
+                    แสดงสมการพหุนามที่ได้จากการวิเคราะห์
+                    - แสดงสมการในรูปแบบคณิตศาสตร์
+                    - แสดงค่าสัมประสิทธิ์ (Coefficients)
+                -->
                 <div class="row mb-4">
                     <div class="col-12">
                         <div class="card">
@@ -284,6 +424,7 @@
                                 </h5>
                             </div>
                             <div class="card-body">
+                                <!-- Container สำหรับแสดงสมการ - จะถูกเติมด้วย JavaScript -->
                                 <div id="equationsContainer" class="row">
                                     <!-- Equations will be populated here -->
                                 </div>
@@ -292,7 +433,14 @@
                     </div>
                 </div>
 
-                <!-- Download Section -->
+                <!-- 
+                    💾 Download Section - ส่วนดาวน์โหลดผลลัพธ์
+                    =============================================
+                    ให้ผู้ใช้ดาวน์โหลดผลลัพธ์ในรูปแบบต่างๆ
+                    - JSON: สำหรับ Developer หรือการประมวลผลต่อ
+                    - CSV: สำหรับ Excel หรือ Data Analysis
+                    - TXT: สำหรับ Text Editor ทั่วไป
+                -->
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
@@ -303,16 +451,19 @@
                             </div>
                             <div class="card-body">
                                 <div class="row">
+                                    <!-- ปุ่มดาวน์โหลด JSON -->
                                     <div class="col-md-4">
                                         <button class="btn btn-primary w-100" onclick="downloadResults('json')">
                                             <i class="fas fa-file-code me-2"></i>ดาวน์โหลด JSON
                                         </button>
                                     </div>
+                                    <!-- ปุ่มดาวน์โหลด CSV -->
                                     <div class="col-md-4">
                                         <button class="btn btn-success w-100" onclick="downloadResults('csv')">
                                             <i class="fas fa-file-csv me-2"></i>ดาวน์โหลด CSV
                                         </button>
                                     </div>
+                                    <!-- ปุ่มดาวน์โหลด TXT -->
                                     <div class="col-md-4">
                                         <button class="btn btn-info w-100" onclick="downloadResults('txt')">
                                             <i class="fas fa-file-alt me-2"></i>ดาวน์โหลด TXT
@@ -325,7 +476,11 @@
                 </div>
             </div>
 
-            <!-- No Results Message -->
+            <!-- 
+                ❌ No Results Message - ข้อความเมื่อยังไม่มีผลลัพธ์
+                ===================================================
+                แสดงเมื่อยังไม่มีการประมวลผลหรือยังไม่มีผลลัพธ์
+            -->
             <div id="noResultsMessage" class="text-center">
                 <i class="fas fa-chart-line fa-4x text-muted mb-3"></i>
                 <h4 class="text-muted">ยังไม่มีผลลัพธ์</h4>
@@ -333,6 +488,14 @@
             </div>
         </div>
     </section>    <!-- About Section -->
+    <!-- 
+        ℹ️ About Section - ส่วนข้อมูลเกี่ยวกับระบบ
+        ==========================================
+        อธิบายการทำงานของระบบและเทคโนโลジีที่ใช้
+        - ข้อมูลเกี่ยวกับเทคโนโลยี
+        - คำแนะนำประเภทภาพที่เหมาะสม
+        - ข้อมูลการใช้งาน
+    -->
     <section id="about-section" class="py-5 bg-about">
         <div class="container">
             <div class="row">
@@ -343,7 +506,15 @@
                 </div>
             </div>
 
+            <!-- 
+                🔬 Technology Cards - การ์ดแสดงเทคโนโลยี
+                ==========================================
+                อธิบายเทคโนโลยีหลักที่ใช้ในระบบ
+                - Bootstrap Grid 3 คอลัมน์ (col-lg-4)
+                - แต่ละการ์ดอธิบายเทคโนโลยีแตกต่างกัน
+            -->
             <div class="row">
+                <!-- การ์ดที่ 1: Computer Vision -->
                 <div class="col-lg-4">
                     <div class="card text-center h-100">
                         <div class="card-body">
@@ -356,6 +527,7 @@
                         </div>
                     </div>
                 </div>
+                <!-- การ์ดที่ 2: Machine Learning -->
                 <div class="col-lg-4">
                     <div class="card text-center h-100">
                         <div class="card-body">
@@ -368,6 +540,7 @@
                         </div>
                     </div>
                 </div>
+                <!-- การ์ดที่ 3: Polynomial Analysis -->
                 <div class="col-lg-4">
                     <div class="card text-center h-100">
                         <div class="card-body">
@@ -382,9 +555,20 @@
                 </div>
             </div>
 
+            <!-- 
+                📝 Image Type Guidelines - คำแนะนำประเภทภาพ
+                ============================================
+                อธิบายประเภทภาพที่เหมาะสมและไม่เหมาะสม
+                - Bootstrap Grid 2 คอลัมน์ (col-lg-6)
+                - ใช้ไอคอนและสีเพื่อแยกความแตกต่าง
+            -->
             <div class="row mt-5">
-                <div class="col-lg-6">                    <h4><i class="fas fa-check-circle text-success me-2"></i>✅ ประเภทภาพที่เหมาะสม</h4>
+                <!-- ภาพที่เหมาะสม -->
+                <div class="col-lg-6">
+                    <!-- ใช้ไอคอน check-circle สีเขียวเพื่อแสดงความเหมาะสม -->
+                    <h4><i class="fas fa-check-circle text-success me-2"></i>✅ ประเภทภาพที่เหมาะสม</h4>
                     <ul class="list-unstyled">
+                        <!-- รายการภาพที่เหมาะสมสำหรับการวิเคราะห์ -->
                         <li><i class="fas fa-check text-success me-2"></i>📊 ภาพกราฟฟังก์ชันคณิตศาสตร์</li>
                         <li><i class="fas fa-check text-success me-2"></i>〰️ ลายเส้นโค้งต่างๆ ที่ชัดเจน</li>
                         <li><i class="fas fa-check text-success me-2"></i>⚫ ภาพขาวดำหรือ Grayscale</li>
@@ -392,8 +576,12 @@
                         <li><i class="fas fa-check text-success me-2"></i>📈 กราฟจากหนังสือหรือเอกสาร</li>
                     </ul>
                 </div>
-                <div class="col-lg-6">                    <h4><i class="fas fa-times-circle text-danger me-2"></i>❌ ประเภทภาพที่ไม่เหมาะสม</h4>
+                <!-- ภาพที่ไม่เหมาะสม -->
+                <div class="col-lg-6">
+                    <!-- ใช้ไอคอน times-circle สีแดงเพื่อแสดงความไม่เหมาะสม -->
+                    <h4><i class="fas fa-times-circle text-danger me-2"></i>❌ ประเภทภาพที่ไม่เหมาะสม</h4>
                     <ul class="list-unstyled">
+                        <!-- รายการภาพที่ไม่เหมาะสมสำหรับการวิเคราะห์ -->
                         <li><i class="fas fa-times text-danger me-2"></i>🎨 ภาพสีที่ซับซ้อน (ควรแปลงเป็นขาวดำก่อน)</li>
                         <li><i class="fas fa-times text-danger me-2"></i>📷 ภาพถ่ายที่มี noise หรือเบลอ</li>
                         <li><i class="fas fa-times text-danger me-2"></i>🕸️ ภาพที่มีเส้นหลายเส้นซับซ้อนซ้อนทับกัน</li>
@@ -405,10 +593,18 @@
         </div>
     </section>
 
-    <!-- Footer -->
+    <!-- 
+        🦶 Footer - ส่วนท้ายของเว็บไซต์
+        ===============================
+        แสดงข้อมูลเกี่ยวกับแอปพลิเคชันและเทคโนโลยีที่ใช้
+        - ข้อมูล Copyright
+        - รายการเทคโนโลยี
+        - Badge Components สำหรับแสดงเทคโนโลยี
+    -->
     <footer class="bg-dark text-white py-4">
         <div class="container">
             <div class="row">
+                <!-- ข้อมูลแอปพลิเคชัน -->
                 <div class="col-md-6">
                     <h5><i class="fas fa-chart-line me-2"></i>Image to Polynomial Web App</h5>
                     <p class="text-muted">
@@ -416,7 +612,10 @@
                         โดยใช้เทคนิค Computer Vision และ Machine Learning
                     </p>
                 </div>
-                <div class="col-md-6">                    <h6>🛠️ เทคโนโลยีที่ใช้</h6>
+                <!-- รายการเทคโนโลยี -->
+                <div class="col-md-6">
+                    <!-- รายการเทคโนโลยีในรูปแบบ Badge -->
+                    <h6>🛠️ เทคโนโลยีที่ใช้</h6>
                     <div class="d-flex flex-wrap gap-2">
                         <span class="badge bg-primary">💻 JavaScript ES6+</span>
                         <span class="badge bg-success">🎨 Bootstrap 5</span>
@@ -428,6 +627,7 @@
                 </div>
             </div>
             <hr class="my-3">
+            <!-- Copyright -->
             <div class="row">
                 <div class="col-12 text-center">
                     <p class="mb-0">&copy; 2025 Image to Polynomial Web App. All rights reserved.</p>
@@ -436,13 +636,21 @@
         </div>
     </footer>
 
-    <!-- Bootstrap JS -->
+    <!-- 
+        📚 External JavaScript Libraries
+        ===============================
+        การโหลด JavaScript Libraries ภายนอก
+        - Bootstrap JS: สำหรับ Interactive Components
+        - Chart.js: สำหรับการสร้างกราฟและแผนภูมิ
+        - Custom JS: ไฟล์ JavaScript ที่เราเขียนเอง
+    -->
+    <!-- Bootstrap JS Bundle - รวม Popper.js สำหรับ Tooltips และ Popovers -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
-    <!-- Chart.js -->
+    <!-- Chart.js Library - สำหรับสร้างกราฟและแผนภูมิ -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
-    <!-- Custom JavaScript -->
+    <!-- Custom JavaScript - ไฟล์ JavaScript หลักของแอปพลิเคชัน -->
     <script src="script.js"></script>
 </body>
 </html>
